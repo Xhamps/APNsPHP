@@ -23,27 +23,32 @@
 }
 
 - (BOOL)sendProviderDeviceToken:(NSString *)devToken {
-  UIDevice *dev = [UIDevice currentDevice];
-  NSString *deviceName = dev.name;
-  NSString *deviceModel = dev.model;
-  NSString *deviceSystemVersion = dev.systemVersion;
 
-  NSString *deviceToken = [[[[devToken description]
-                             stringByReplacingOccurrencesOfString:@"<"withString:@""]
-                            stringByReplacingOccurrencesOfString:@">" withString:@""]
-                           stringByReplacingOccurrencesOfString: @" " withString: @""];
+  // Get the users Display Name, Device Model, Device Token , Version Number.
+    UIDevice *dev = [UIDevice currentDevice];
+    NSString *deviceName = dev.name;
+    NSString *deviceModel = dev.model;
+    NSString *deviceSystemVersion = dev.systemVersion;
 
-  // URL of Service
-  // CHANGE TO THE PATH OF SERVICE
-  NSString *urlHost = @"www.mywebsite.com/register.model.php";
+    NSString *deviceToken = [[[[devToken description]
+                               stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                              stringByReplacingOccurrencesOfString:@">" withString:@""]
+                             stringByReplacingOccurrencesOfString: @" " withString: @""];
 
-  NSString *urlString = [NSString stringWithFormat:@"?devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@", deviceToken, deviceName, deviceModel,deviceSystemVersion];
+    //CHANGE TO THE TOKEN SET IN SERVICE PAGE
+    NSString *token = @"49dc30989de7381dfb4ed4374bd13f43";
+
+    // URL of Service
+    // CHANGE TO THE PATH OF SERVICE
+    NSString *urlHost = @"/www.mywebsite.com";
+    // CHANGE THE NAME OF SERVICE PAGE
+    NSString *queryString = [NSString stringWithFormat:@"/register.model.php?devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@@&token=%@", deviceToken, deviceName, deviceModel,deviceSystemVersion , token];
+
+    NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:urlHost path:[queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 
 
-  NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:urlHost path:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-  NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-  NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-
-  return YES;
+    return YES;
 
 }
