@@ -109,3 +109,5 @@ coverage
 assets/*
 
 .sass-cache
+
+/vendor/

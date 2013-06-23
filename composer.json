@@ -1,0 +1,19 @@
+{
+    "name": "xhamps/apnsphp",
+    "description": "APNsPHP is a component, which help you store the token and send Push Notification",
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "authors": [
+        {
+            "name": "Xhamps",
+            "email": "xhamps@gmail.com",
+            "homepage": "https://github.com/Xhamps/APNsPHP"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Xhamps\\APN": "src/"
+        }
+    }
+}
