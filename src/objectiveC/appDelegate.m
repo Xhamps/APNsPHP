@@ -35,20 +35,23 @@
                               stringByReplacingOccurrencesOfString:@">" withString:@""]
                              stringByReplacingOccurrencesOfString: @" " withString: @""];
 
+
     //CHANGE TO THE TOKEN SET IN SERVICE PAGE
     NSString *token = @"49dc30989de7381dfb4ed4374bd13f43";
 
     // URL of Service
     // CHANGE TO THE PATH OF SERVICE
-    NSString *urlHost = @"/www.mywebsite.com";
+    NSString *urlHost = @"www.mywebsite.com";
     // CHANGE THE NAME OF SERVICE PAGE
-    NSString *queryString = [NSString stringWithFormat:@"/register.model.php?devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@@&token=%@", deviceToken, deviceName, deviceModel,deviceSystemVersion , token];
+    NSString *queryString = [NSString stringWithFormat:@"/register.model.php?devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&token=%@", deviceToken, deviceName, deviceModel,deviceSystemVersion , token];
 
     NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:urlHost path:[queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSHTTPURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 
-
+    if([response statusCode] != 200 ) return FALSE;
     return YES;
 
 }
